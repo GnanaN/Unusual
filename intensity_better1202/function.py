@@ -152,17 +152,17 @@ def reclass(img, classNum,method='equal_interval'):
             # 这里示例将图像分成五个区间进行分类，可以根据具体情况调整分级
             breaks = np.linspace(0, 1, classNum+1)  # 根据需要分成五类，这里是0-1之间的五个分界点
         else:  # 自然断点法
-
             data = np.array(img[img>0])
             flattened_data = data.flatten()
             # 重采样数据
-            if len(flattened_data)  > 25000000:
-                sample_size = int(len(flattened_data) * 0.025)  # 使用原始数据的5%
-                subset = np.random.choice(
-                flattened_data, size=sample_size, replace=False)
-            else:
-                sample_size = int(len(flattened_data) * 0.05)  # 使用原始数据的5%
-                subset = np.random.choice(flattened_data, size=sample_size, replace=False)
+            # if len(flattened_data)  > 25000000:
+                # 自然断点法，取样1%
+            sample_size = int(len(flattened_data) * 0.01)  # 使用原始数据的1%
+            subset = np.random.choice(
+            flattened_data, size=sample_size, replace=False)
+            # else:
+                # sample_size = int(len(flattened_data) * 0.05)  # 使用原始数据的5%
+                # subset = np.random.choice(flattened_data, size=sample_size, replace=False)
             breaks = jenkspy.jenks_breaks(subset, 5)
             breaks[5] = (max_val)
         print(breaks)
